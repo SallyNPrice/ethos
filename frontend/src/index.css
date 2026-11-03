@@ -1,0 +1,40 @@
+/* Ethos: Global design system */
+
+:root {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  color: #30283b;
+  background-color: #faf8ff;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Ethos color palette */
+  --color-background: #faf8ff;
+  --color-surface: #ffffff;
+  --color-primary: #a83270;
+  --color-primary-light: #fce8f1;
+  --color-text: #30283b;
+  --color-muted: #71677e;
+  --color-border: #eee8f2;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
