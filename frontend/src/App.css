@@ -228,3 +228,28 @@
   justify-content: center;
   padding-inline: 8px;
 }
+
+/* Navigation icons */
+
+.sidebar-nav a,
+.sidebar-bottom a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sidebar-nav svg,
+.sidebar-bottom svg {
+  flex-shrink: 0;
+}
+
+/* Keep settings accessible when collapsed */
+
+.sidebar.collapsed .sidebar-bottom {
+  display: block;
+}
+
+.sidebar.collapsed .sidebar-bottom a {
+  justify-content: center;
+  padding-inline: 8px;
+}

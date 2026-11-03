@@ -1,3 +1,14 @@
+import {
+  LayoutDashboard,
+  Heart,
+  Target,
+  CalendarDays,
+  ChartNoAxesCombined,
+  Settings,
+  PanelLeftClose,
+  PanelLeftOpen,
+} from 'lucide-react';
+
 import { useState } from 'react';
 import './App.css';
 
@@ -19,43 +30,50 @@ function App() {
               setIsSidebarCollapsed((current) => !current)
             }
             aria-label="Toggle sidebar"
-            aria-expanded={isSidebarCollapsed}
+            aria-expanded={!isSidebarCollapsed}
             title="Toggle sidebar"
           >
-            ☰
+            {isSidebarCollapsed ? (
+              <PanelLeftOpen size={20} />
+            ) : (
+              <PanelLeftClose size={20} />
+            )}
           </button>
         </div>
 
 
         <nav className="sidebar-nav">
-          <a className="active" href="#overview">
-            <span className="nav-icon">⌂</span>
+          <a className="active" href="#overview" title="Overview">
+            <LayoutDashboard size={20} />
             <span className="nav-label">Overview</span>
           </a>
 
-          <a href="#habits">
-            <span className="nav-icon">♡</span>
+          <a href="#habits" title="My Habits">
+            <Heart size={20} />
             <span className="nav-label">My Habits</span>
           </a>
 
-          <a href="#goals">
-            <span className="nav-icon">◎</span>
+          <a href="#goals" title="Goals">
+            <Target size={20} />
             <span className="nav-label">Goals</span>
           </a>
 
-          <a href="#calendar">
-            <span className="nav-icon">▦</span>
+          <a href="#calendar" title="Calendar">
+            <CalendarDays size={20} />
             <span className="nav-label">Calendar</span>
           </a>
 
-          <a href="#analytics">
-            <span className="nav-icon">↗</span>
+          <a href="#analytics" title="Analytics">
+            <ChartNoAxesCombined size={20} />
             <span className="nav-label">Analytics</span>
           </a>
         </nav>
 
         <div className="sidebar-bottom">
-          <a href="#settings">Settings</a>
+          <a href="#settings" title="Settings">
+            <Settings size={20} />
+            <span className="nav-label">Settings</span>
+          </a>
         </div>
       </aside>
 
