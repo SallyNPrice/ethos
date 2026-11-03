@@ -380,3 +380,120 @@
     grid-template-columns: 1fr;
   }
 }
+
+
+/* Add habit form */
+
+.habit-form {
+  display: flex;
+  gap: 10px;
+  margin: 20px 0 8px;
+}
+
+.habit-form input {
+  flex: 1;
+  min-width: 0;
+  padding: 11px 13px;
+  border: 1px solid var(--color-border);
+  border-radius: 9px;
+  background: white;
+  color: var(--color-text);
+  font-size: 13px;
+  outline: none;
+}
+
+.habit-form input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-light);
+}
+
+.habit-form input::placeholder {
+  color: #aaa0b2;
+}
+
+.add-habit-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 10px 14px;
+  border: none;
+  border-radius: 9px;
+  background: var(--color-primary);
+  color: white;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: background 0.2s ease;
+}
+
+.add-habit-button:hover {
+  background: #892658;
+}
+
+.habit-error {
+  color: #c03955;
+  font-size: 12px;
+  margin: 8px 0 12px;
+}
+
+/* Delete habit button */
+
+.delete-habit-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: #a69bab;
+  transition: all 0.2s ease;
+}
+
+.delete-habit-button:hover {
+  background: #fff0f2;
+  color: #c03955;
+}
+
+/* Empty habit list */
+
+.habit-empty-state {
+  text-align: center;
+  padding: 35px 15px;
+  color: var(--color-muted);
+}
+
+.habit-empty-state svg {
+  color: var(--color-primary);
+  margin-bottom: 10px;
+}
+
+.habit-empty-state h3 {
+  font-size: 15px;
+  color: var(--color-text);
+  margin: 0 0 6px;
+}
+
+.habit-empty-state p {
+  font-size: 13px;
+  margin: 0;
+}
+
+/* Small-screen form layout */
+
+@media (max-width: 500px) {
+  .habit-form {
+    flex-direction: column;
+  }
+
+  .add-habit-button {
+    width: 100%;
+  }
+
+  .completed-label {
+    display: none;
+  }
+}

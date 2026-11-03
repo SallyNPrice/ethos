@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, type FormEvent } from 'react';
 import {
   LayoutDashboard,
   Heart,
@@ -11,6 +11,7 @@ import {
   PanelLeftOpen,
   Check,
   Plus,
+  Trash2,
 } from 'lucide-react';
 import './App.css';
 
@@ -45,6 +46,9 @@ function App() {
     },
   ]);
 
+  const [newHabitName, setNewHabitName] = useState('');
+  const [habitError, setHabitError] = useState('');
+
   const completedCount = habits.filter(
     (habit) => habit.completed
   ).length;
@@ -63,6 +67,38 @@ function App() {
           ? { ...habit, completed: !habit.completed }
           : habit
       )
+    );
+  }
+
+  function addHabit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    const trimmedName = newHabitName.trim();
+
+    if (!trimmedName) {
+      setHabitError('Please enter a habit name.');
+      return;
+    }
+
+    const newHabit: Habit = {
+      id: Date.now(),
+      name: trimmedName,
+      description: 'Your new daily habit',
+      completed: false,
+    };
+
+    setHabits((currentHabits) => [
+      ...currentHabits,
+      newHabit,
+    ]);
+
+    setNewHabitName('');
+    setHabitError('');
+  }
+
+  function deleteHabit(id: number) {
+    setHabits((currentHabits) =>
+      currentHabits.filter((habit) => habit.id !== id)
     );
   }
 
@@ -182,40 +218,86 @@ function App() {
               <p>{Math.round(progressPercentage)}% completed</p>
             </div>
 
+            <form className="habit-form" onSubmit={addHabit}>
+              <input
+                type="text"
+                value={newHabitName}
+                onChange={(event) => {
+                  setNewHabitName(event.target.value);
+                  setHabitError('');
+                }}
+                placeholder="Add a new habit..."
+                aria-label="New habit name"
+                aria-invalid={Boolean(habitError)}
+                aria-describedby={
+                  habitError ? 'habit-error' : undefined
+                }
+              />
+
+              <button type="submit" className="add-habit-button">
+                <Plus size={17} />
+                Add habit
+              </button>
+            </form>
+
+            {habitError && (
+              <p className="habit-error" id="habit-error">
+                {habitError}
+              </p>
+            )}
+
             <div className="habit-list">
-              {habits.map((habit) => (
-                <div
-                  className={`habit-item ${
-                    habit.completed ? 'completed' : ''
-                  }`}
-                  key={habit.id}
-                >
-                  <button
-                    className="habit-checkbox"
-                    type="button"
-                    onClick={() => toggleHabit(habit.id)}
-                    aria-label={
-                      habit.completed
-                        ? `Mark ${habit.name} incomplete`
-                        : `Mark ${habit.name} complete`
-                    }
-                    aria-pressed={habit.completed}
-                  >
-                    {habit.completed && <Check size={16} />}
-                  </button>
-
-                  <div className="habit-info">
-                    <h3>{habit.name}</h3>
-                    <p>{habit.description}</p>
-                  </div>
-
-                  {habit.completed && (
-                    <span className="completed-label">
-                      Completed
-                    </span>
-                  )}
+              {habits.length === 0 ? (
+                <div className="habit-empty-state">
+                  <Heart size={30} />
+                  <h3>No habits yet</h3>
+                  <p>Add your first habit to get started.</p>
                 </div>
-              ))}
+              ) : (
+                habits.map((habit) => (
+                  <div
+                    className={`habit-item ${
+                      habit.completed ? 'completed' : ''
+                    }`}
+                    key={habit.id}
+                  >
+                    <button
+                      className="habit-checkbox"
+                      type="button"
+                      onClick={() => toggleHabit(habit.id)}
+                      aria-label={
+                        habit.completed
+                          ? `Mark ${habit.name} incomplete`
+                          : `Mark ${habit.name} complete`
+                      }
+                      aria-pressed={habit.completed}
+                    >
+                      {habit.completed && <Check size={16} />}
+                    </button>
+
+                    <div className="habit-info">
+                      <h3>{habit.name}</h3>
+                      <p>{habit.description}</p>
+                    </div>
+
+                    {habit.completed && (
+                      <span className="completed-label">
+                        Completed
+                      </span>
+                    )}
+
+                    <button
+                      className="delete-habit-button"
+                      type="button"
+                      onClick={() => deleteHabit(habit.id)}
+                      aria-label={`Delete ${habit.name}`}
+                      title={`Delete ${habit.name}`}
+                    >
+                      <Trash2 size={17} />
+                    </button>
+                  </div>
+                ))
+              )}
             </div>
           </div>
 
