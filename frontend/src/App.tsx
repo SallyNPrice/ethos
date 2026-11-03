@@ -1,5 +1,5 @@
 
-import { useState, type FormEvent } from 'react';
+import { useEffect, useState, type FormEvent } from 'react';
 import {
   LayoutDashboard,
   Heart,
@@ -22,33 +22,51 @@ type Habit = {
   completed: boolean;
 };
 
+function loadHabits(): Habit[] {
+  const savedHabits = localStorage.getItem('ethos-habits');
+
+  if (!savedHabits) {
+    return [
+      {
+        id: 1,
+        name: 'Drink water',
+        description: 'Drink 8 glasses of water',
+        completed: false,
+      },
+      {
+        id: 2,
+        name: 'Read for 20 minutes',
+        description: 'Spend some time reading',
+        completed: false,
+      },
+      {
+        id: 3,
+        name: 'Exercise',
+        description: 'Move your body today',
+        completed: false,
+      },
+    ];
+  }
+
+  try {
+    return JSON.parse(savedHabits) as Habit[];
+  } catch {
+    return [];
+  }
+}
+
 function App() {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
-  const [habits, setHabits] = useState<Habit[]>([
-    {
-      id: 1,
-      name: 'Drink water',
-      description: 'Drink 8 glasses of water',
-      completed: false,
-    },
-    {
-      id: 2,
-      name: 'Read for 20 minutes',
-      description: 'Spend some time reading',
-      completed: false,
-    },
-    {
-      id: 3,
-      name: 'Exercise',
-      description: 'Move your body today',
-      completed: false,
-    },
-  ]);
+  const [habits, setHabits] = useState<Habit[]>(loadHabits);
 
   const [newHabitName, setNewHabitName] = useState('');
   const [habitError, setHabitError] = useState('');
 
+  useEffect(() => {
+    localStorage.setItem('ethos-habits', JSON.stringify(habits));
+  }, [habits]);
+  
   const completedCount = habits.filter(
     (habit) => habit.completed
   ).length;
